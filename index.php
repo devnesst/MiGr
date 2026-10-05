@@ -1,0 +1,124 @@
+<?php
+// ===== CONFIGURACIÓN: editá solo esta parte =====
+$nombre    = 'Evelyn Marisol';
+$fecha     = '2026-12-18 20:00:00';              // AAAA-MM-DD HH:MM:SS (para la cuenta regresiva)
+$fechaTxt  = 'Viernes 18 de diciembre de 2026';
+$horaTxt   = '20:00 hs';
+$lugar     = 'Local del Sr. Jorge Velilla, Pacheco - Carapeguá';
+$mapa      = 'https://maps.app.goo.gl/NSxPrQx7qtMriYvb8';
+$whatsapp  = '595972605203';                       // tu número con código de país, solo dígitos
+
+// Invitado personalizado: index.php?i=Maria+Lopez
+$invitado = isset($_GET['i']) ? htmlspecialchars(trim($_GET['i']), ENT_QUOTES, 'UTF-8') : '';
+$msg = "Hola! Confirmo mi asistencia a la colación el 18 de diciembre." . ($invitado ? " Soy $invitado." : '');
+$linkWa = 'https://wa.me/' . $whatsapp . '?text=' . urlencode($msg);
+$hayFoto = file_exists(__DIR__ . '/foto.jpg');   // opcional: subí una foto llamada foto.jpg
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi graduación · <?= $nombre ?></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Dibujos reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="birrete" viewBox="0 0 64 64"><path d="M32 12 2 26l30 14 30-14z" fill="currentColor"/><path d="M14 34v12c0 4 8 8 18 8s18-4 18-8V34l-18 8z" fill="currentColor" opacity=".75"/><path d="M60 27v16" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="45" r="3" fill="currentColor"/></symbol>
+  <g id="rama" fill="none" stroke="#c98aa0" stroke-width="2" stroke-linecap="round">
+    <path d="M10 190C60 140 70 80 140 20"/>
+    <g fill="#e6b6c4" stroke="none">
+      <ellipse cx="45" cy="150" rx="22" ry="8" transform="rotate(-40 45 150)"/>
+      <ellipse cx="75" cy="115" rx="22" ry="8" transform="rotate(-70 75 115)"/>
+      <ellipse cx="100" cy="75" rx="20" ry="7" transform="rotate(-50 100 75)"/>
+      <ellipse cx="55" cy="125" rx="20" ry="7" transform="rotate(20 55 125)"/>
+      <ellipse cx="95" cy="95" rx="20" ry="7" transform="rotate(10 95 95)"/>
+    </g>
+    <g fill="#b4617f" stroke="none"><circle cx="140" cy="20" r="9"/><circle cx="118" cy="48" r="6"/></g>
+  </g>
+</defs></svg>
+
+<!-- Pétalos que caen (generados con PHP) -->
+<?php for ($i = 0; $i < 14; $i++): ?>
+<i class="petalo" style="left:<?= rand(0,100) ?>%;--s:<?= rand(8,16) ?>px;animation-duration:<?= rand(10,18) ?>s;animation-delay:-<?= rand(0,14) ?>s"></i>
+<?php endfor; ?>
+
+<!-- Sobre de bienvenida -->
+<div id="sobre" class="sobre" role="button" tabindex="0" aria-label="Abrir invitación">
+  <div class="carta">
+    <div class="solapa"></div>
+    <div class="sello"><svg><use href="#birrete"/></svg></div>
+  </div>
+  <p>Toca el sobre</p>
+</div>
+
+<main id="inv" class="oculto">
+  <svg class="rama tl" viewBox="0 0 160 200"><use href="#rama"/></svg>
+  <svg class="rama br" viewBox="0 0 160 200"><use href="#rama"/></svg>
+
+  <section class="hero">
+    <svg class="icono flota"><use href="#birrete"/></svg>
+    <h1 class="script grande">¡Festejaré!</h1>
+    <p class="suave">Mi graduación</p>
+    <?php if ($hayFoto): ?><img class="foto" src="foto.jpg" alt="<?= $nombre ?>"><?php endif; ?>
+    <h2 class="script nombre"><?= $nombre ?></h2>
+    <p class="suave">Un sueño cumplido, un futuro por comenzar.</p>
+    <?php if ($invitado): ?><p class="invitado">Invitación para <strong><?= $invitado ?></strong></p><?php endif; ?>
+  </section>
+
+  <section class="ver">
+    <p class="texto">Después de tanto esfuerzo, sueños y noches de estudio, llegó el momento de celebrar este logro.
+    Quiero compartir este día tan especial con personas importantes para mí.</p>
+  </section>
+
+  <section class="ver">
+    <h2 class="script medio">¡Prepárate!</h2>
+    <p class="suave">Falta muy poco para celebrarlo</p>
+    <div id="cuenta" class="cuenta" data-fecha="<?= $fecha ?>">
+      <div><b id="d">0</b><span>días</span></div>
+      <div><b id="h">0</b><span>horas</span></div>
+      <div><b id="m">0</b><span>min</span></div>
+      <div><b id="s">0</b><span>seg</span></div>
+    </div>
+    <div class="calendario" aria-label="Calendario de diciembre de 2026">
+      <h3>Diciembre <span>2026</span></h3>
+      <table>
+        <thead>
+          <tr><th scope="col">L</th><th scope="col">M</th><th scope="col">X</th><th scope="col">J</th><th scope="col">V</th><th scope="col">S</th><th scope="col">D</th></tr>
+        </thead>
+        <tbody>
+          <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+          <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+          <tr><td>14</td><td>15</td><td>16</td><td>17</td><td><time datetime="2026-12-18" aria-label="Viernes 18 de diciembre, día de la celebración">18</time></td><td>19</td><td>20</td></tr>
+          <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+          <tr><td>28</td><td>29</td><td>30</td><td>31</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ver">
+    <h2 class="script medio">Cuándo y dónde</h2>
+    <p class="dato"><?= $fechaTxt ?></p>
+    <p class="dato"><?= $horaTxt ?></p>
+    <p class="dato"><?= $lugar ?></p>
+    <a class="boton" href="<?= $mapa ?>" target="_blank" rel="noopener">Ver ubicación</a>
+  </section>
+
+  <section class="ver">
+    <h2 class="script medio">Confirmación</h2>
+    
+    <p class="texto">Tu presencia es muy importante para mí. Confirma tu asistencia por WhatsApp.</p>
+    <a class="boton pulso" href="<?= $linkWa ?>" target="_blank" rel="noopener">Confirmar por WhatsApp</a>
+  </section>
+
+  <footer class="ver"><p class="script medio">Gracias por ser parte de este sueño</p></footer>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
